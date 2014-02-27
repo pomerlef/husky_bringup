@@ -16,6 +16,7 @@
   <url>http://ros.org/wiki/husky_bringup</url>
   <depend package="rospy"/>
   <depend package="sensor_msgs"/>
+  <depend package="std_srvs"/>
   <depend package="nav_msgs"/>
   <depend package="geometry_msgs"/>
   <depend package="clearpath_bringup"/>
