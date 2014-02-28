@@ -126,7 +126,7 @@ class DeadReckoning(object):
         self.last_encoder = data
 
         # Integrate for calibration
-        if self.calibration:
+        if self.calibStarted:
           self.fullTurn = self.fullTurn + da
 
         # Update data
