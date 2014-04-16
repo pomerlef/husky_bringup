@@ -10,5 +10,6 @@
     <!-- Subscribe to encoders and optionally IMU -->
     <node pkg="husky_bringup" name="dead_reckoning" type="dead_reckoning.py">
         <param name="gyro_scale_correction" value="1.0" />
+        <param name="steering_efficiency" value="0.48" />
     </node>
 </launch>
