@@ -60,6 +60,9 @@ class DeadReckoning(object):
         self.gyro_scale = rospy.get_param('~gyro_scale_correction',1.0)
         # a steerign efficiency of 0.48 is typical for indoor floors
         self.steering_efficiency= rospy.get_param('~steering_efficiency',0.48)
+        
+        # Initialize odometry message
+        self.InitOdometry()
 
         # Set up publishers/subscribers
         self.pub_imu = rospy.Publisher('imu_data',Imu)
@@ -74,9 +77,7 @@ class DeadReckoning(object):
 
         self.calibStarted = False
 
-        # Initialize odometry message
-        self.InitOdometry()
-        
+                
         dynamic_reconfigure.server.Server(HuskyConfig, self.Reconfigure)
     
     
@@ -122,7 +123,6 @@ class DeadReckoning(object):
    
     def HandleEncoder(self,data):
         # Initialize encoder state
-        print self.last_encoder
 
         if not self.last_encoder:
             self.last_encoder = data
@@ -147,7 +147,7 @@ class DeadReckoning(object):
         
         rospy.loginfo("dr: %f" % dr)
 
-        if(abs(dr) > 2.0):
+        if(abs(dr) < 2.0):
           # Update data
           o = self.odom.pose.pose.orientation
           cur_heading = PyKDL.Rotation.Quaternion(o.x,o.y,o.z,o.w).GetEulerZYX()
