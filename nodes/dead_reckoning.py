@@ -144,15 +144,13 @@ class DeadReckoning(object):
 
         # FP: this is a patch for encoder msg reseting
         # It is not a solution, the problem needs to be solved at a lower level
-        
-        rospy.loginfo("dr: %f" % dr)
-
         if(abs(dr) < 2.0):
           # Update data
           o = self.odom.pose.pose.orientation
           cur_heading = PyKDL.Rotation.Quaternion(o.x,o.y,o.z,o.w).GetEulerZYX()
-          self.odom.pose.pose.position.x += dr * cos(cur_heading[0]) # FP: TODO confirm that
-          self.odom.pose.pose.position.y += dr * sin(cur_heading[0]) 
+          # The following eq. are based on  "Introduction to Autonomous Mobile Robots", Siewart, Nourbakhsh, 2004
+          self.odom.pose.pose.position.x += dr * cos(cur_heading[0] + da/2)
+          self.odom.pose.pose.position.y += dr * sin(cur_heading[0] + da/2) 
           quat = PyKDL.Rotation.RotZ(cur_heading[0] + da).GetQuaternion()
           self.odom.pose.pose.orientation = Quaternion(quat[0],quat[1],quat[2],quat[3])
           self.odom.twist.twist.linear.x = ddr
