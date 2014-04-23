@@ -148,7 +148,7 @@ class DeadReckoning(object):
           # Update data
           o = self.odom.pose.pose.orientation
           cur_heading = PyKDL.Rotation.Quaternion(o.x,o.y,o.z,o.w).GetEulerZYX()
-          # The following eq. are based on  "Introduction to Autonomous Mobile Robots", Siewart, Nourbakhsh, 2004
+          # The following eq. are based on  "Introduction to Autonomous Mobile Robots", Siegwart, Nourbakhsh, 2004
           self.odom.pose.pose.position.x += dr * cos(cur_heading[0] + da/2)
           self.odom.pose.pose.position.y += dr * sin(cur_heading[0] + da/2) 
           quat = PyKDL.Rotation.RotZ(cur_heading[0] + da).GetQuaternion()
